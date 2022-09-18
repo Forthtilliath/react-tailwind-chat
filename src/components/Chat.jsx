@@ -7,11 +7,12 @@ import useEffectOnce from '../utils/hooks/useEffectOnce';
 import Message from './Message';
 
 const Chat = ({ socket }) => {
-  const { username, room } = useChatContext();
+  const { username, room, clear, disconnect } = useChatContext();
 
   const [currentMessage, setCurrentMessage] = useState('');
   const [messagesList, setMessagesList] = useState([]);
 
+  /** Send a message to other users and log into the message in the chat */
   const sendMessage = async (e) => {
     e.preventDefault();
 
@@ -29,20 +30,33 @@ const Chat = ({ socket }) => {
     }
   };
 
+  /** Log new message from other users */
   useEffectOnce(() => {
     socket.on('receive_message', (data) => {
       setMessagesList((list) => [...list, data]);
     });
   }, [socket]);
 
+  /** Disconnect the user of the chat */
+  const disconnectChat = () => {
+    clear();
+    socket.disconnect();
+    disconnect();
+  };
+
   return (
     <div className="w-80">
       <h3 className="text-5xl font-bold p-2 bg-gray-800 text-white text-center rounded-t-md">
         Live Chat
       </h3>
-      <p className="text-sm p-2 bg-gray-800 text-white text-center">
-        Room id : {room}
-      </p>
+      <div className="text-sm p-2 bg-gray-800 text-white text-center flex justify-between">
+        <p>Room id : {room}</p>
+        <button
+          onClick={disconnectChat}
+          className="hover:bg-gray-600 px-2 py-1 rounded">
+          Disconnect
+        </button>
+      </div>
       <div className="border border-gray-800 h-[300px]">
         <ScrollToBottom
           className="w-full h-full overflow-hidden"
