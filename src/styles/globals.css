@@ -1,0 +1,26 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.sb-from-green {
+    --tw-scrollbar-gradient-from: #00f260;
+    --tw-scrollbar-gradient-to: #00f26000;
+    --tw-scrollbar-gradient-stops: var(--tw-scrollbar-gradient-from), var(--tw-scrollbar-gradient-to);
+}
+
+.sb-to-blue {
+    --tw-scrollbar-gradient-to: #0575e6;
+}
+
+.sb-gradient-to-br::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(to right bottom, var(--tw-scrollbar-gradient-stops));
+}
+
+.sb-rounded-md::-webkit-scrollbar-thumb {
+    border-radius: 0.375rem;
+}
+
+.sb-2::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
